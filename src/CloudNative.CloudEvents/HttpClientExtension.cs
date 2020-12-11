@@ -124,7 +124,12 @@ namespace CloudNative.CloudEvents
                     else
                     {
                         var response = new HttpResponseMessage(HttpStatusCode.OK);
+#if (NETCOREAPP)
+                        response.Content = new StringContent(string.Empty);
+                        response.Content.Headers.Add("Allow", "POST");
+#else
                         response.Headers.Add("Allow", "POST");
+#endif
                         response.Headers.Add("WebHook-Allowed-Origin", origin);
                         response.Headers.Add("WebHook-Allowed-Rate", rate);
                         return response;
