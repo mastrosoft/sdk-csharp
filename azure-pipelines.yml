@@ -32,3 +32,17 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.CloudEvents.csproj;!**/*.Tests.csproj'
+    versioningScheme: 'off'
+    
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '2a5ccdf4-49b5-4cc7-8db9-7a9f48a321df/0b1a188c-30c9-43ee-babd-4ec4a17f2dc9'
+    allowPackageConflicts: true
