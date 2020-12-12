@@ -40,9 +40,19 @@ steps:
     versioningScheme: 'off'
     
 - task: NuGetCommand@2
+  displayName: Push to Github Custom
   inputs:
     command: 'push'
     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: 'c1562139-7111-41bc-8022-dd01deda44b2'
+    allowPackageConflicts: true
+
+- task: NuGetCommand@2
+  displayName: Push to Utils Public
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '2a5ccdf4-49b5-4cc7-8db9-7a9f48a321df/0b1a188c-30c9-43ee-babd-4ec4a17f2dc9'
     allowPackageConflicts: true
